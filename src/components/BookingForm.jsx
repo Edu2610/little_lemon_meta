@@ -14,14 +14,14 @@ export default function BookingForm({
 
   const isValid = date && time && Number(guests) >= 1 && Number(guests) <= 12;
 
-  const handleDate = (e) => {
-    const val = e.target.value;
-    setDate(val);
-    onDateChange?.(val);
-    dispatchAvailableTimes?.({ type: "date_changed", payload: val });
-    // opcional: limpiar hora al cambiar fecha
-    setTime("");
-  };
+// dentro de BookingForm.jsx
+const handleDate = (e) => {
+  const val = e.target.value;
+  setDate(val);
+  onDateChange?.(val); // el padre (Main) dispara la carga
+  setTime(""); // opcional: limpiar hora
+};
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
