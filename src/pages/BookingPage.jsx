@@ -1,4 +1,3 @@
-// src/pages/BookingPage.jsx
 import React from "react";
 import BookingForm from "../components/BookingForm.jsx";
 import BookingSlotsList from "../components/BookingSlotsList.jsx";
@@ -6,7 +5,7 @@ import BookingSlotsList from "../components/BookingSlotsList.jsx";
 export default function BookingPage({
   availableTimes,
   dispatchAvailableTimes,
-  onSubmitReservation,
+  onSubmitReservation,    // <- viene de Main (ahora es submitForm)
   selectedDate,
   onDateChange,
   bookedTimes,
@@ -20,7 +19,7 @@ export default function BookingPage({
         <BookingForm
           availableTimes={availableTimes}
           dispatchAvailableTimes={dispatchAvailableTimes}
-          onSubmitReservation={onSubmitReservation}
+          onSubmitReservation={onSubmitReservation}  // <- se lo pasamos al form
           onDateChange={onDateChange}
         />
       </section>

@@ -24,11 +24,12 @@ const handleDate = (e) => {
 
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!isValid) return;
-    const payload = { date, time, guests: Number(guests), occasion };
-    onSubmitReservation?.(payload);
-  };
+  e.preventDefault();
+  if (!isValid) return;
+
+  const payload = { date, time, guests: Number(guests), occasion };
+  onSubmitReservation?.(payload);  // <- navega si la API responde true
+};
 
   return (
     <form

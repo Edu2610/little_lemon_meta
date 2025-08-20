@@ -1,46 +1,44 @@
 // src/components/Main.jsx
 import React, { useReducer, useState } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import HomePage from "../pages/HomePage.jsx";
 import BookingPage from "../pages/BookingPage.jsx";
+import ConfirmedBooking from "../pages/ConfirmedBooking.jsx";
 
-/* Utilidad segura para llamar a la API global sin romper si no está */
+/* Utilidades seguras para llamar a la API global */
 function safeFetchAPI(dateObj) {
   try {
     if (typeof window !== "undefined" && typeof window.fetchAPI === "function") {
       return window.fetchAPI(dateObj);
     }
   } catch {}
-  // Fallback si no está la API cargada
-  return ["17:00", "18:00", "19:00", "20:00", "21:00"];
+  return ["17:00", "18:00", "19:00", "20:00", "21:00"]; // fallback
 }
+
 function safeSubmitAPI(formData) {
   try {
     if (typeof window !== "undefined" && typeof window.submitAPI === "function") {
       return window.submitAPI(formData);
     }
   } catch {}
-  return false; // si no hay API, consideramos fallo
+  return false;
 }
 
-/* ---- Estado inicial de horarios: usa la API para "hoy" ---- */
+/* Estado inicial de horarios */
 export function initializeTimes() {
   const today = new Date();
   return safeFetchAPI(today);
 }
 
-/* ---- Reducer de availableTimes conectado a la API ---- */
+/* Reducer conectado a la API */
 export function updateTimes(state, action) {
   switch (action.type) {
     case "date_changed": {
-      // action.payload debe ser un string "YYYY-MM-DD"
       const dateObj = action.payload ? new Date(action.payload) : new Date();
-      const times = safeFetchAPI(dateObj);
-      return times;
+      return safeFetchAPI(dateObj);
     }
-    case "slot_booked": {
+    case "slot_booked":
       return state.filter((t) => t !== action.payload);
-    }
     case "slot_released": {
       const next = Array.from(new Set([...state, action.payload]));
       return next.sort();
@@ -53,32 +51,29 @@ export function updateTimes(state, action) {
 export default function Main() {
   const [availableTimes, dispatch] = useReducer(updateTimes, null, initializeTimes);
 
-  // Selecciona por defecto "hoy" para que el form ya tenga horarios
   const todayStr = new Date().toISOString().slice(0, 10);
   const [selectedDate, setSelectedDate] = useState(todayStr);
 
-  // Mapa de reservas por fecha: { "YYYY-MM-DD": ["18:00", "20:00"], ... }
   const [bookingsByDate, setBookingsByDate] = useState({});
+  const navigate = useNavigate();
 
   const handleDateChange = (dateStr) => {
     setSelectedDate(dateStr);
     dispatch({ type: "date_changed", payload: dateStr });
   };
 
-  const handleSubmitReservation = ({ date, time, guests, occasion }) => {
-    const payload = { date, time, guests, occasion };
-    const ok = safeSubmitAPI(payload);
+  const submitForm = (formData) => {
+    const ok = safeSubmitAPI(formData);
     if (ok) {
-      // Persistimos la reserva en el estado local y actualizamos disponibilidad
       setBookingsByDate((prev) => {
-        const prevForDate = prev[date] ?? [];
-        return { ...prev, [date]: [...prevForDate, time] };
+        const prevForDate = prev[formData.date] ?? [];
+        return { ...prev, [formData.date]: [...prevForDate, formData.time] };
       });
-      dispatch({ type: "slot_booked", payload: time });
-      // Aquí podrías navegar a una página de confirmación
-      // e.g., useNavigate()('/booking/confirmed', { state: payload })
+      dispatch({ type: "slot_booked", payload: formData.time });
+
+      // Navegamos a la página de confirmación
+      navigate("/booking/confirmed", { state: formData, replace: true });
     } else {
-      // Manejo simple de error (puedes mejorar con toasts/modales)
       alert("No se pudo registrar la reserva. Intenta nuevamente.");
     }
   };
@@ -94,18 +89,26 @@ export default function Main() {
           element={
             <BookingPage
               availableTimes={availableTimes}
-              dispatchAvailableTimes={dispatch}  // por si tu BookingForm lo usa
-              onSubmitReservation={handleSubmitReservation}
+              dispatchAvailableTimes={dispatch}
+              onSubmitReservation={submitForm}
               selectedDate={selectedDate}
               onDateChange={handleDateChange}
               bookedTimes={bookedTimesForSelectedDate}
             />
           }
         />
+        <Route path="/booking/confirmed" element={<ConfirmedBooking />} />
         <Route path="/menu" element={<Navigate to="/" replace />} />
         <Route path="/about" element={<Navigate to="/" replace />} />
         <Route path="/contacto" element={<Navigate to="/" replace />} />
-        <Route path="*" element={<div className="section"><h2>Página no encontrada</h2></div>} />
+        <Route
+          path="*"
+          element={
+            <div className="section">
+              <h2>Página no encontrada</h2>
+            </div>
+          }
+        />
       </Routes>
     </main>
   );
