@@ -1,18 +1,34 @@
 /* ---------- Variables y reset suave ---------- */
+/* ---------- PALETA LITTLE LEMON (suave) ---------- */
 :root {
-  --bg: #ffffff;
-  --ink: #222222;
-  --muted: #6b7280;
-  --brand: #4caf50;
-  --panel: #f8fafc;
-  --border: #e5e7eb;
+  /* Colores base */
+  --bg: #FCFEFA;          /* fondo muy claro */
+  --ink: #1F2937;         /* texto principal */
+  --muted: #6B7280;       /* texto secundario */
 
+  /* Marca */
+  --brand: #5FBF4A;       /* verde menta */
+  --brand-dark: #3D8E33;  /* hover/foco */
+
+  /* Acentos limón */
+  --accent: #FFD84D;      /* limón vivo (focus) */
+  --accent-soft: #FFF3B0; /* limón suave para fondos ligeros */
+
+  /* Superficies */
+  --panel: #F7FBF4;       /* paneles/secciones */
+  --border: #E3F0DB;      /* líneas sutiles */
+
+  /* Layout */
   --maxw: 1120px;
   --gap: 16px;
-
   --radius: 12px;
   --shadow: 0 6px 18px rgba(0,0,0,.06);
+
+  /* Derivados útiles */
+  --brand-ghost: #EAF7E6;   /* verde muy suave */
+  --accent-ghost: #FFF7D6;  /* limón muy suave */
 }
+
 
 * { box-sizing: border-box; }
 html, body, #root { height: 100%; }
@@ -216,3 +232,129 @@ form input:focus, form select:focus, form textarea:focus {
 /* utilidades para skip link */
 .sr-only { position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
 .sr-only-focusable:focus { position:static; width:auto; height:auto; }
+
+
+/* Links del menú */
+.nav-list a {
+  color: var(--ink);
+  text-decoration: none;
+  padding: .5rem .75rem;
+  border-radius: 8px;
+}
+.nav-list a:hover,
+.nav-list a:focus {
+  background: var(--brand-ghost);
+  color: var(--brand-dark);
+  outline: none;
+}
+
+/* Botones */
+.btn {
+  border: 1px solid var(--brand);
+  background: var(--brand);
+  color: #fff;
+}
+.btn:hover,
+.btn:focus { filter: brightness(0.95); }
+
+.btn-outline {
+  border: 1px solid var(--brand);
+  color: var(--brand);
+  background: transparent;
+}
+.btn-outline:hover,
+.btn-outline:focus { background: var(--brand-ghost); }
+
+/* Inputs focus */
+form input:focus, form select:focus, form textarea:focus {
+  outline: 2px solid var(--accent);
+  border-color: var(--brand);
+}
+
+/* Secciones / tarjetas (solo color) */
+.section {
+  background: var(--panel);
+  border: 1px solid var(--border);
+}
+.card {
+  background: #fff;
+  border: 1px solid var(--border);
+}
+
+/* ====== COLOR POP SUAVE (Little Lemon) ====== */
+
+/* Titulares con un toque de marca */
+h1, h2, h3 { color: var(--brand-dark); }
+
+/* Hero con acento limón */
+.hero {
+  background: linear-gradient(135deg, var(--accent-ghost) 0%, var(--panel) 100%);
+  border-left: 6px solid var(--accent);
+}
+
+/* Variante de sección con fondo alterno (úsala donde quieras “levantar” el bloque) */
+.section--alt {
+  background: linear-gradient(180deg, var(--panel) 0%, var(--brand-ghost) 100%);
+}
+
+/* Nav: resalta el item activo (NavLink añade aria-current="page" automáticamente) */
+.nav-list a[aria-current="page"],
+.nav-list a.active {
+  background: var(--brand-ghost);
+  color: var(--brand-dark);
+  font-weight: 600;
+}
+@media (min-width: 1024px) {
+  /* En desktop (sidebar), además una “barra” de color */
+  .nav-list a[aria-current="page"],
+  .nav-list a.active {
+    border-left: 4px solid var(--accent);
+  }
+}
+
+/* Links del header un poquito más “marca” */
+.header-inner a { color: var(--brand-dark); }
+.header-inner a:hover { color: var(--brand); }
+
+/* Botón acento (limón) para CTAs secundarios */
+.btn-accent {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #6b4f00;
+  font-weight: 700;
+}
+.btn-accent:hover,
+.btn-accent:focus { filter: brightness(0.98); }
+
+/* Botón principal con sombra suave */
+.btn { box-shadow: 0 6px 14px rgba(95, 191, 74, .18); }
+
+/* Tarjetas: hover con borde menta y sombra sutil */
+.card:hover {
+  border-color: var(--brand);
+  box-shadow: 0 10px 22px rgba(95, 191, 74, .12);
+}
+
+/* Badges/chips por si los usas en horarios o etiquetas */
+.badge {
+  display: inline-block;
+  padding: .2rem .5rem;
+  border-radius: 999px;
+  font-size: .85rem;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  background: #fff;
+}
+.badge--ok {
+  border-color: #c6e9bf;
+  color: var(--brand-dark);
+  background: var(--brand-ghost);
+}
+.badge--accent {
+  border-color: #ffe08a;
+  color: #8a6a00;
+  background: var(--accent-ghost);
+}
+
+/* Footer con franja limón */
+.app-footer { border-top: 4px solid var(--accent); }

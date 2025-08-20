@@ -1,27 +1,37 @@
+import React from "react";
+import Header from "./components/Header";
+import Nav from "./components/Nav";
+import Footer from "./components/Footer";
+import Main from "./components/Main";
+
 export default function App() {
   return (
     <>
-      {/* Skip link para teclado */}
-      <a href="#contenido" className="sr-only sr-only-focusable">
-        Saltar al contenido
-      </a>
+      <a href="#contenido" className="sr-only sr-only-focusable">Saltar al contenido</a>
 
-      <header>
-        <h1 className="visually-hidden">Little Lemon</h1>
-        {/* tu logo acá */}
-      </header>
+      <div className="app-grid">
+        <header className="app-header">
+          <div className="header-inner container">
+            <Header />
+          </div>
+        </header>
 
-      <nav aria-label="Navegación principal">
-        {/* <Nav /> */}
-      </nav>
+        <nav className="app-nav" aria-label="Navegación principal">
+          <div className="container">
+            <Nav />
+          </div>
+        </nav>
 
-      <main id="contenido">
-        {/* <Main /> */}
-      </main>
+        <main id="contenido" className="app-main">
+          <div className="container">
+            <Main />
+          </div>
+        </main>
 
-      <footer>
-        {/* <Footer /> */}
-      </footer>
+        <footer className="app-footer">
+          <Footer />
+        </footer>
+      </div>
     </>
   );
 }
