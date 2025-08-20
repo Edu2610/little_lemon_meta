@@ -174,3 +174,29 @@ footer {
   height: 40px;
   width: auto;
 }
+
+.btn {
+  display: inline-block;
+  padding: .625rem .9rem;
+  border-radius: 10px;
+  border: 1px solid var(--brand);
+  background: var(--brand);
+  color: #fff;
+  text-decoration: none;
+}
+.btn:hover,
+.btn:focus { filter: brightness(0.95); }
+
+.btn-outline {
+  display: inline-block;
+  padding: .625rem .9rem;
+  border-radius: 10px;
+  border: 1px solid var(--brand);
+  background: transparent;
+  color: var(--brand);
+  text-decoration: none;
+}
+.btn-outline:hover,
+.btn-outline:focus {
+  background: #eef6f0;
+}

@@ -1,30 +1,23 @@
 import React from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import HomePage from "../pages/HomePage.jsx";
+import BookingPage from "../pages/BookingPage.jsx";
 
 export default function Main() {
   return (
     <main id="contenido" className="stack">
-      <section className="section">
-        <h1>Bienvenido a Little Lemon</h1>
-        <p>Cocina mediterránea fresca, simple y deliciosa.</p>
-      </section>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/booking" element={<BookingPage />} />
 
-      <section className="section">
-        <h2>Platos destacados</h2>
-        <div className="cards">
-          <article className="card">
-            <h3>Ensalada Griega</h3>
-            <p>Queso feta, aceitunas kalamata, pepino y aceite de oliva.</p>
-          </article>
-          <article className="card">
-            <h3>Pasta al Limón</h3>
-            <p>Pasta fresca con salsa de limón y hierbas de la casa.</p>
-          </article>
-          <article className="card">
-            <h3>Hummus Clásico</h3>
-            <p>Crema de garbanzos con tahini, limón y aceite de oliva.</p>
-          </article>
-        </div>
-      </section>
+        {/* Rutas placeholder → redirige al home por ahora */}
+        <Route path="/menu" element={<Navigate to="/" replace />} />
+        <Route path="/about" element={<Navigate to="/" replace />} />
+        <Route path="/contacto" element={<Navigate to="/" replace />} />
+
+        {/* 404 simple */}
+        <Route path="*" element={<div className="section"><h2>Página no encontrada</h2></div>} />
+      </Routes>
     </main>
   );
 }
