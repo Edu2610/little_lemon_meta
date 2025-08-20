@@ -1,36 +1,176 @@
+/* ---------- Variables y reset suave ---------- */
 :root {
-  --ink: #222;
-  --bg: #fff;
+  --bg: #ffffff;
+  --ink: #222222;
+  --muted: #6b7280;
   --brand: #4caf50;
+  --panel: #f8fafc;
+  --border: #e5e7eb;
+
+  --maxw: 1120px;
+  --gap: 16px;
+
+  --radius: 12px;
+  --shadow: 0 6px 18px rgba(0,0,0,.06);
 }
 
 * { box-sizing: border-box; }
-html, body, #root { height: 100%; margin: 0; }
-
+html, body, #root { height: 100%; }
 body {
-  font-family: system-ui, sans-serif;
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial;
   color: var(--ink);
   background: var(--bg);
   line-height: 1.5;
 }
 
-header, nav, main, footer {
-  padding: 1rem;
+/* ---------- Ayudas reutilizables ---------- */
+.container {
+  width: min(100% - 2rem, var(--maxw));
+  margin-inline: auto;
 }
 
-nav ul {
-  list-style: none;
-  padding: 0;
+.stack > * + * { margin-top: 0.75rem; }         /* spacing vertical */
+.inline { display: inline-flex; gap: .5rem; }   /* fila con gap */
+.center { display: grid; place-items: center; } /* centrar contenido */
+
+/* Flex helpers */
+.flex { display: flex; }
+.flex-wrap { flex-wrap: wrap; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.gap-sm { gap: .5rem; }
+.gap-md { gap: 1rem; }
+.gap-lg { gap: 1.5rem; }
+
+/* ---------- GRID de la página ---------- */
+/* En móvil: una sola columna, orden natural */
+.app-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "header"
+    "nav"
+    "main"
+    "footer";
+}
+
+/* En pantallas ≥768px: nav a la izquierda, main a la derecha */
+@media (min-width: 768px) {
+  .app-grid {
+    grid-template-columns: 260px 1fr;
+    grid-template-areas:
+      "header header"
+      "nav    main"
+      "footer footer";
+    column-gap: var(--gap);
+  }
+}
+
+/* En pantallas ≥1024px: mismo patrón con más respiración */
+@media (min-width: 1024px) {
+  .app-grid {
+    column-gap: calc(var(--gap) * 1.5);
+  }
+}
+
+.app-header { grid-area: header; }
+.app-nav    { grid-area: nav; }
+.app-main   { grid-area: main; }
+.app-footer { grid-area: footer; }
+
+/* ---------- Header ---------- */
+header {
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+.header-inner {
+  padding: 0.75rem 0;
   display: flex;
+  align-items: center;
+  justify-content: space-between;
   gap: 1rem;
 }
 
-nav a {
+/* ---------- Nav ---------- */
+nav {
+  background: var(--panel);
+  padding: 1rem;
+  border-right: 1px solid var(--border);
+}
+.nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: .5rem;
+}
+.nav-list a {
+  display: block;
+  padding: .625rem .75rem;
   text-decoration: none;
   color: var(--ink);
-  border-bottom: 2px solid transparent;
+  border-radius: 8px;
+}
+.nav-list a:hover, .nav-list a:focus {
+  background: #eef6f0;
+  outline: none;
 }
 
-nav a:hover, nav a:focus {
-  border-bottom-color: var(--brand);
+/* En móvil, el nav puede ir horizontal si prefieres: */
+/* .nav-list { display: flex; overflow-x: auto; } */
+
+/* ---------- Main ---------- */
+main {
+  padding: 1rem 0;
+}
+.section {
+  padding: 1rem;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* Grid de tarjetas reutilizable */
+.cards {
+  display: grid;
+  gap: var(--gap);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 640px) {
+  .cards { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1024px) {
+  .cards { grid-template-columns: repeat(3, 1fr); }
+}
+.card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+}
+
+/* ---------- Footer ---------- */
+footer {
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+  padding: 1rem 0;
+}
+.footer-grid {
+  display: grid;
+  gap: .75rem;
+}
+@media (min-width: 640px) {
+  .footer-grid {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+  }
+}
+
+/* ---------- Utilidades de imágenes/logos ---------- */
+.logo {
+  display: block;
+  height: 40px;
+  width: auto;
 }

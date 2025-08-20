@@ -3,16 +3,16 @@ import logo from "../assets/little-lemon-logo.png";
 
 export default function Header() {
   return (
-    <header>
+    <div className="header-inner">
       <a href="/" aria-label="Little Lemon - inicio">
-        <img
-          src={logo}
-          alt="Little Lemon - Logotipo"
-          width="180"
-          height="auto"
-          style={{ display: "block" }}
-        />
+        <img src={logo} alt="Little Lemon - Logotipo" className="logo" />
       </a>
-    </header>
+
+      {/* Acciones opcionales a la derecha */}
+      <div className="inline gap-sm">
+        <a href="/reservas">Reservar</a>
+        <a href="/contacto">Contacto</a>
+      </div>
+    </div>
   );
 }
