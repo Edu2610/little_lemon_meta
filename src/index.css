@@ -212,3 +212,7 @@ form input:focus, form select:focus, form textarea:focus {
   outline: 2px solid #cfe9d5;
   border-color: #b2d7bb;
 }
+
+/* utilidades para skip link */
+.sr-only { position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
+.sr-only-focusable:focus { position:static; width:auto; height:auto; }
